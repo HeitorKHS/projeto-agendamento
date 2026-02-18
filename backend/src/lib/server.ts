@@ -45,6 +45,65 @@ app.post("/users", async (req, res) => {
 
 });
 
+app.post("/appointments", async (req, res) => {
+
+    const createAppointmentSchema = z.object({
+        userId: z.uuid(),
+        date: z.string(),
+    });
+
+    try {
+
+        const {userId, date} = createAppointmentSchema.parse(req.body);
+
+        const appointmentDate = new Date(date);
+
+        //reset minutes, seconds, and milliseconds (for hourly scheduling)
+        appointmentDate.setMinutes(0, 0, 0);
+
+        //check if the date is invalid
+        if(isNaN(appointmentDate.getTime())){
+            return res.status(400).send({ message: "Formato de data inválido." })
+        }
+
+        //Check if the date is in the past.
+        const now = new Date();
+        if(appointmentDate < now) {
+            return res.status(400).send({ message: "Você não pode agendar no passado." });
+        }
+
+        //Check for conflicts in the database
+        const conflictingAppointment = await prisma.appointment.findFirst({
+            where: {
+                date: appointmentDate,
+            },
+        });
+
+        if(conflictingAppointment){
+            return res.status(400).send({ message: "Este horário já está ocupado." })
+        }
+
+        const appointment = await prisma.appointment.create({
+            data:{
+                userId,
+                date: appointmentDate,
+            },
+        });
+
+        return res.status(201).send(appointment);
+
+    } catch(error:any){
+
+        if(error instanceof z.ZodError){
+            return res.status(400).send({ errors: error.flatten });
+        }
+
+        return res.status(500).send({ message: "Erro interno no servidor." });
+        
+    }
+
+});
+
 app.get('/check', async () => {
   return { status: 'ok' };
 });
