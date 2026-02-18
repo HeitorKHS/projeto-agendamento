@@ -45,6 +45,7 @@ app.post("/users", async (req, res) => {
 
 });
 
+//Create appointments
 app.post("/appointments", async (req, res) => {
 
     const createAppointmentSchema = z.object({
@@ -104,7 +105,37 @@ app.post("/appointments", async (req, res) => {
 
 });
 
-app.get('/check', async () => {
+//Returns all of the user's appointments
+app.get("/appointments/:userId", async (req, res) => {
+
+    const getParamsSchema = z.object({
+        userId: z.uuid(),
+    });
+
+    try {
+
+        const { userId } = getParamsSchema.parse(req.params);
+
+        const appointments = prisma.appointment.findMany({
+            where: {
+                userId: userId,
+            },
+            orderBy: {
+                date: "asc",
+            },
+        });
+
+        return res.status(204).send(appointments);
+
+    } catch(error:any){
+
+        return res.status(400).send({ message: "ID de usuário inválido." });
+
+    }
+
+})
+
+app.get("/check", async () => {
   return { status: 'ok' };
 });
 
