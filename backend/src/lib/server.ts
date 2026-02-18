@@ -125,11 +125,40 @@ app.get("/appointments/:userId", async (req, res) => {
             },
         });
 
-        return res.status(204).send(appointments);
+        return appointments;
 
     } catch(error:any){
 
         return res.status(400).send({ message: "ID de usuário inválido." });
+
+    }
+
+})
+
+//Delete the appointment
+app.delete("/appointments/:id", async (req, res) => {
+    
+    const getParamsSchema = z.object({
+        id: z.uuid(),
+    });
+    
+    try {
+
+        const { id } = getParamsSchema.parse(req.params);
+
+        await prisma.appointment.delete({
+            where: {id},
+        });
+
+        return res.status(204).send();
+
+    } catch(error:any){
+
+        if(error.code === "P2025"){
+            return res.status(404).send({ message: "Agendamento não encontrado." })
+        }
+
+        return res.status(400).send({ message: "ID inválido." })
 
     }
 
