@@ -164,6 +164,52 @@ app.delete("/appointments/:id", async (req, res) => {
 
 })
 
+app.get("/calendar", async (req, res) => {
+
+    const querySchema = z.object({
+        date: z.string(),
+    });
+
+    try {
+
+        const { date } = querySchema.parse(req.query);
+
+        const startOfDay = new Date(date);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(date);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+
+        const appointments = await prisma.appointment.findMany({
+            where: {
+                date: {
+                    gte: startOfDay,
+                    lte: endOfDay,
+                },
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
+            },
+            orderBy: {
+                date: 'asc',
+            },
+        });
+
+        return appointments;
+
+    } catch(error){
+        
+        return res.status(400).send({ message: "Data inválida ou não fornecida." });
+  
+    }
+
+})
+
 app.get("/check", async () => {
   return { status: 'ok' };
 });
