@@ -2,8 +2,22 @@ import { prisma } from "./prisma";
 import Fastify from "fastify";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import jwt from '@fastify/jwt'
+import "dotenv/config";
 
 const app = Fastify({logger: true});
+
+app.register(jwt, {
+  secret: `${process.env.JWT_SECRET}`,
+})
+
+app.decorate("authenticate", async (req, res) => {
+  try {
+    await req.jwtVerify()
+  } catch (err) {
+    res.status(401).send({ message: "Token inválido ou ausente!" })
+  }
+})
 
 app.post("/users", async (req, res) => {
 
@@ -209,6 +223,54 @@ app.get("/calendar", async (req, res) => {
     }
 
 })
+
+// POST /services (Only ADMIN)
+app.post("/services", { preHandler: [app.authenticate] }, async (req, res) => {
+
+    const serviceSchema = z.object({
+        name: z.string(),
+        description: z.string().optional(),
+        price: z.number(),
+        duration: z.number(),
+    });
+
+    try {
+
+        const user = req.user as {role: string};
+        if(user.role !== 'ADMIN'){
+            return res.status(403).send({ message: "Apenas administradores podem criar serviços." });
+        }
+
+        const { name, description, price, duration } = serviceSchema.parse(req.body);
+
+        const service = await prisma.service.create({
+            data: {
+                name,
+                description: description ?? null,
+                price,
+                duration,
+            }
+        })
+
+        return res.status(201).send(service);
+
+    } catch(error:any){
+
+        return res.status(400).send({ message: "Erro ao criar serviço." });
+
+    }
+
+})
+
+// GET /services
+app.get("/services", async (req, res) => {
+
+    const services = await prisma.service.findMany();
+    return services;
+
+})
+
+
 
 app.get("/check", async () => {
   return { status: 'ok' };

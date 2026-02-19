@@ -20,9 +20,23 @@ model User {
   createdAt DateTime @default(now())
 }
 
+model Service {
+  id String @id @default(uuid())
+  name String
+  description String?
+  price Float
+  duration Int
+  appointments Appointment[]
+}
+
 model Appointment {
   id String @id @default(uuid())
   date DateTime
+  status String @default("PENDING")
+
   userId String
   user User @relation(fields: [userId], references: [id])
+
+  serviceId String
+  service Service @relation(fields: [serviceId], references: [id])
 }
