@@ -33,11 +33,11 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
