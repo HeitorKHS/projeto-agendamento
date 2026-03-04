@@ -2,6 +2,16 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { AuthService } from "./auth.service";
 import { registerSchema, loginSchema } from "./auth.schema";
 
+{/*
+    Código de erro
+    201 - User criado com sucesso
+    200 - Operação realizada com sucesso
+    400 - Dados inválidos (erro do Zod)
+    409 - E-mail já em uso
+    500 - Erro inesperado do servidor
+*/}
+
+
 const authService = new AuthService();
 
 export class AuthController{

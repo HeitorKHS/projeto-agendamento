@@ -2,15 +2,15 @@ import z from "zod";
 
 //Define as regras para os dados do registro de usuário
 export const registerSchema = z.object({
-    name: z.string().min(5, "Name must be at least 5 characters"),
-    email: z.email("Invalid email"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    name: z.string().min(5, "O nome deve ter pelo menos 5 caracteres."),
+    email: z.email("E-mail inválido."),
+    password: z.string().min(8, "A senha deve ter pelo menos 8 caracteres."),
 });
 
 //Define as regras para os dados de login de usuário
 export const loginSchema = z.object({
-    email: z.email("Invalid email"),
-    password: z.string().min(1, "Password is required"),
+    email: z.email("E-mail inválido."),
+    password: z.string().min(1, "A senha é obrigatória."),
 });
 
 //Cria tipos TypeScript automaticamente com base nos schemas
