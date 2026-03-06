@@ -38,4 +38,34 @@ model Appointment {
   
   serviceId String
   service Service @relation(fields: [serviceId], references: [id])
+
+  professionalId String
+  professional Professional @relation(fields: [professionalId], references: [id])
+}
+
+model Professional {
+  id String @id @default(uuid())
+  name String
+  phone String?
+  bio String?
+  appointments Appointment[]
+  workSchedules WorkSchedule[]
+  blockedDates  BlockedDate[]
+}
+
+model WorkSchedule {
+  id String @id @default(uuid())
+  dayOfWeek Int // 0 = Domingo, 1 = Segunda... 6 = Sábado
+  startTime String // "09:00"
+  endTime String // "18:00"
+  professionalId String
+  professional Professional @relation(fields: [professionalId], references: [id])
+}
+
+model BlockedDate {
+  id String @id @default(uuid())
+  date DateTime
+  reason String?
+  professionalId String
+  professional Professional @relation(fields: [professionalId], references: [id])
 }

@@ -3,6 +3,7 @@ import Fastify from "fastify";
 import { env } from "./config/env";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { servicesRoutes } from "./modules/services/services.routes";
+import { professionalsRoutes } from "./modules/professionals/professionals.routes";
 
 export const app = Fastify({ logger: true });
 
@@ -16,3 +17,4 @@ app.register(fastifyJwt, {
 //Routes
 app.register(authRoutes, {prefix: "/auth"});
 app.register(servicesRoutes, {prefix: "/services"});
+app.register(professionalsRoutes, {prefix: "/professionals"});

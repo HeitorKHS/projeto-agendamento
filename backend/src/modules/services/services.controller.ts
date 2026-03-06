@@ -40,7 +40,7 @@ export class ServicesController{
         try{
 
             const services = await servicesService.findAll();
-            return reply.status(201).send(services);
+            return reply.status(200).send(services);
 
         } catch(error:any){
 
