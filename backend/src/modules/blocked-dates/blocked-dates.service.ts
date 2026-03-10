@@ -16,7 +16,7 @@ export class BlockedDatesService{
         const existingBlockedDate = await prisma.blockedDate.findFirst({
             where:{
                 professionalId: data.professionalId,
-                date: new Date(data.date),
+                date: data.date,
             },
         });
 
@@ -26,7 +26,7 @@ export class BlockedDatesService{
 
         const blockedDate = await prisma.blockedDate.create({
             data:{
-                date: new Date(data.date),
+                date: data.date,
                 reason: data.reason ?? null,
                 professionalId: data.professionalId,
             },

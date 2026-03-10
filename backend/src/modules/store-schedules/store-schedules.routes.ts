@@ -5,7 +5,7 @@ import { authorize } from "../../middlewares/authorize";
 
 const storeSchedulesController = new StoreSchedulesController();
 
-export function storeSchedulesRoutes(app: FastifyInstance){
+export async function storeSchedulesRoutes(app: FastifyInstance){
 
     //Pública
     app.get("/", (req, reply) => storeSchedulesController.findAll(req, reply));

@@ -1,5 +1,6 @@
 import z from "zod";
 
+//Define as regras para os dados do registro de store schedule
 export const baseStoreScheduleSchema = z.object({
     dayOfWeek: z.number().int().min(0).max(6, "O dia da semana deve estar entre 0 e 6."),
     startTime: z.string().regex(/^([0-1]\d|2[0-3]):[0-5]\d$/, "Formato de hora inválido, use HH:MM."),
@@ -22,5 +23,6 @@ export const updateStoreScheduleSchema = baseStoreScheduleSchema.partial().refin
   { message: "O horário de início deve ser antes do horário de término"},
 );
 
+//Cria tipos TypeScript automaticamente com base nos schemas
 export type CreateStoreScheduleSchema = z.infer<typeof createStoreScheduleSchema>;
 export type UpdateStoreScheduleSchema = z.infer<typeof updateStoreScheduleSchema>;

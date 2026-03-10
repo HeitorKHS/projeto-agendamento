@@ -56,7 +56,7 @@ model BlockedDate {
 model BlockedSlot {
   id String @id @default(uuid())
   date DateTime
-  reason String?
+  time String
   professionalId String
   professional Professional @relation(fields: [professionalId], references: [id])
 }

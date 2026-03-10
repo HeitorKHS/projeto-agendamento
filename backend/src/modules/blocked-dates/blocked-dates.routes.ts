@@ -5,7 +5,7 @@ import { authorize } from "../../middlewares/authorize";
 
 const blockedDatesController = new BlockedDatesController();
 
-export function blockedDatesRoutes(app: FastifyInstance){
+export async function blockedDatesRoutes(app: FastifyInstance){
 
     //Público
     app.get("/:professionalId", (req, reply) => blockedDatesController.findByProfessional(req, reply));
