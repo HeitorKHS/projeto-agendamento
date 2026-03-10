@@ -2,6 +2,15 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { StoreSchedulesService } from "./store-schedules.service";
 import { createStoreScheduleSchema, updateStoreScheduleSchema } from "./store-schedules.schema";
 
+{/*
+    Código de erro
+    201 - Agenda da loja criado com sucesso
+    200 - Operação realizada com sucesso
+    400 - Dados inválidos (erro do Zod)
+    404 - Agenda da loja não encontrado
+    500 - Erro inesperado do servidor
+*/}
+
 const storeScheduleService = new StoreSchedulesService();
 
 export class StoreSchedulesController{

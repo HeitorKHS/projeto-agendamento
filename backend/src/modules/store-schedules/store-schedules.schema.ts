@@ -24,4 +24,3 @@ export const updateStoreScheduleSchema = baseStoreScheduleSchema.partial().refin
 
 export type CreateStoreScheduleSchema = z.infer<typeof createStoreScheduleSchema>;
 export type UpdateStoreScheduleSchema = z.infer<typeof updateStoreScheduleSchema>;
-
