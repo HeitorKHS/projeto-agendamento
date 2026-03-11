@@ -7,6 +7,7 @@ import { professionalsRoutes } from "./modules/professionals/professionals.route
 import { storeSchedulesRoutes } from "./modules/store-schedules/store-schedules.routes";
 import { blockedDatesRoutes } from "./modules/blocked-dates/blocked-dates.routes";
 import { blockedSlotsRoutes } from "./modules/blocked-slots/blocked-slots.routes";
+import { appointmentsRoutes } from "./modules/appointments/appointments.routes";
 
 export const app = Fastify({ logger: true });
 
@@ -24,3 +25,4 @@ app.register(professionalsRoutes, {prefix: "/professionals"});
 app.register(storeSchedulesRoutes, {prefix: "/store-schedules"});
 app.register(blockedDatesRoutes, {prefix: "/blocked-dates"});
 app.register(blockedSlotsRoutes, {prefix: "/blocked-slots"});
+app.register(appointmentsRoutes, {prefix: "/appointments"});

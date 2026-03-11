@@ -64,6 +64,7 @@ model BlockedSlot {
 model Appointment {
   id String @id @default(uuid())
   date DateTime
+  time String
   status String @default("PENDING")
   
   userId String
