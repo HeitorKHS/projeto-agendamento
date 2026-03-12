@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { AppointmentsController } from "./appointments.controller";
 import { authenticate } from "../../middlewares/authenticate";
 import { authorize } from "../../middlewares/authorize";
+import { lstat } from "node:fs";
 
 const appointmentsController = new AppointmentsController();
 
